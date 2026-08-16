@@ -23,9 +23,10 @@ interface MapProps {
     incidents: Incident[];
     vehicles: Vehicle[];
     onVehicleMoved: (id: number, latitude: number, longitude: number) => void;
+    onIncidentClick: (incident: Incident) => void;
 }
 
-function Map({ incidents, vehicles, onVehicleMoved }: MapProps) {
+function Map({ incidents, vehicles, onVehicleMoved, onIncidentClick }: MapProps) {
     const mapContainer = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);
 
@@ -60,6 +61,10 @@ function Map({ incidents, vehicles, onVehicleMoved }: MapProps) {
                     )
                 )
                 .addTo(mapRef.current!);
+
+            marker.getElement().addEventListener("click", () => {
+                onIncidentClick(incident);
+            });
 
             markers.push(marker);
         });

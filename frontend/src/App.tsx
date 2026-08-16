@@ -21,11 +21,20 @@ interface Vehicle {
     longitude: number;
 }
 
+interface Recommendation {
+    vehicleId: number;
+    vehicleName: string;
+    vehicleType: string;
+    teamName: string | null;
+    distanceKm: number;
+}
+
 function App() {
     const [incidents, setIncidents] = useState<Incident[]>([]);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+    const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
 
-    // İlk veri çekme
     useEffect(() => {
         fetch("http://localhost:5144/api/incidents")
             .then((response) => response.json())
@@ -36,7 +45,6 @@ function App() {
             .then((data) => setVehicles(data));
     }, []);
 
-    // SignalR bağlantısı
     useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("http://localhost:5144/hub/kut")
@@ -44,18 +52,12 @@ function App() {
             .build();
 
         connection.on("VehicleUpdated", (updatedVehicle: Vehicle) => {
-            console.log("VehicleUpdated mesajı geldi:", updatedVehicle);
             setVehicles((prev) =>
                 prev.map((v) => (v.id === updatedVehicle.id ? updatedVehicle : v))
             );
         });
 
-        connection.onclose((err) => console.log("SignalR bağlantısı kapandı:", err));
-
-        connection
-            .start()
-            .then(() => console.log("SignalR bağlantısı kuruldu ✅"))
-            .catch((err) => console.error("SignalR bağlantı hatası:", err));
+        connection.start().catch((err) => console.error("SignalR bağlantı hatası:", err));
 
         return () => {
             connection.stop();
@@ -68,18 +70,43 @@ function App() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ latitude, longitude }),
         });
-        // Not: burada artık manuel setVehicles yapmıyoruz.
-        // Güncelleme SignalR'dan "VehicleUpdated" mesajıyla otomatik gelecek.
+    };
+
+    const handleIncidentClick = (incident: Incident) => {
+        setSelectedIncident(incident);
+
+        fetch(`http://localhost:5144/api/incidents/${incident.id}/recommendations`)
+            .then((response) => response.json())
+            .then((data) => setRecommendations(data));
     };
 
     return (
-        <div>
-            <h1>KUT</h1>
-            <Map
-                incidents={incidents}
-                vehicles={vehicles}
-                onVehicleMoved={handleVehicleMoved}
-            />
+        <div style={{ display: "flex" }}>
+            <div style={{ flex: 1 }}>
+                <h1>KUT</h1>
+                <Map
+                    incidents={incidents}
+                    vehicles={vehicles}
+                    onVehicleMoved={handleVehicleMoved}
+                    onIncidentClick={handleIncidentClick}
+                />
+            </div>
+
+            {selectedIncident && (
+                <div style={{ width: "300px", padding: "16px", borderLeft: "1px solid #ccc" }}>
+                    <h2>{selectedIncident.type} - Severity {selectedIncident.severity}</h2>
+                    <h3>Önerilen Araçlar</h3>
+                    <ul>
+                        {recommendations.map((r) => (
+                            <li key={r.vehicleId}>
+                                <strong>{r.vehicleName}</strong> ({r.vehicleType})
+                                <br />
+                                {r.teamName ?? "Ekip yok"} — {r.distanceKm} km
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 }
