@@ -10,22 +10,31 @@ interface Incident {
     longitude: number;
 }
 
-interface MapProps {
-    incidents: Incident[];
+interface Vehicle {
+    id: number;
+    name: string;
+    type: string;
+    status: string;
+    latitude: number;
+    longitude: number;
 }
 
-function Map({ incidents }: MapProps) {
+interface MapProps {
+    incidents: Incident[];
+    vehicles: Vehicle[];
+}
+
+function Map({ incidents, vehicles }: MapProps) {
     const mapContainer = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);
 
-    // Harita bir kere kurulur
     useEffect(() => {
         if (!mapContainer.current || mapRef.current) return;
 
         mapRef.current = new maplibregl.Map({
             container: mapContainer.current,
             style: "https://demotiles.maplibre.org/style.json",
-            center: [28.9784, 41.0082], // İstanbul: [longitude, latitude]
+            center: [28.9784, 41.0082],
             zoom: 10,
         });
 
@@ -35,7 +44,7 @@ function Map({ incidents }: MapProps) {
         };
     }, []);
 
-    // incidents değiştikçe marker'ları güncelle
+    // Incident marker'ları (kırmızı)
     useEffect(() => {
         if (!mapRef.current) return;
 
@@ -58,6 +67,30 @@ function Map({ incidents }: MapProps) {
             markers.forEach((m) => m.remove());
         };
     }, [incidents]);
+
+    // Vehicle marker'ları (mavi)
+    useEffect(() => {
+        if (!mapRef.current) return;
+
+        const markers: maplibregl.Marker[] = [];
+
+        vehicles.forEach((vehicle) => {
+            const marker = new maplibregl.Marker({ color: "blue" })
+                .setLngLat([vehicle.longitude, vehicle.latitude])
+                .setPopup(
+                    new maplibregl.Popup().setText(
+                        `${vehicle.name} - ${vehicle.status}`
+                    )
+                )
+                .addTo(mapRef.current!);
+
+            markers.push(marker);
+        });
+
+        return () => {
+            markers.forEach((m) => m.remove());
+        };
+    }, [vehicles]);
 
     return (
         <div
