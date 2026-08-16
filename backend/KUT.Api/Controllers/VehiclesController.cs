@@ -1,6 +1,8 @@
 using KUT.Api.Data;
+using KUT.Api.Hubs;
 using KUT.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace KUT.Api.Controllers;
@@ -10,10 +12,12 @@ namespace KUT.Api.Controllers;
 public class VehiclesController : ControllerBase
 {
     private readonly KutDbContext _db;
+    private readonly IHubContext<KutHub> _hub;
 
-    public VehiclesController(KutDbContext db)
+    public VehiclesController(KutDbContext db, IHubContext<KutHub> hub)
     {
         _db = db;
+        _hub = hub;
     }
 
     [HttpGet]
@@ -57,6 +61,8 @@ public class VehiclesController : ControllerBase
         _db.Events.Add(vehicleEvent);
 
         await _db.SaveChangesAsync();
+
+        await _hub.Clients.All.SendAsync("VehicleUpdated", vehicle);
 
         return Ok(vehicle);
     }

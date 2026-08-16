@@ -1,4 +1,5 @@
 using KUT.Api.Data;
+using KUT.Api.Hubs;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,8 @@ builder.Services.AddDbContext<KutDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
+builder.Services.AddSignalR();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
@@ -25,7 +28,8 @@ builder.Services.AddCors(options =>
         policy
             .WithOrigins("http://localhost:5173")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -40,4 +44,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors("Frontend");
 
 app.MapControllers();
+app.MapHub<KutHub>("/hub/kut");
+
 app.Run();
