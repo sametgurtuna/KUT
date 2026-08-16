@@ -1,11 +1,12 @@
 <div align="center">
 
-<img src="docs/assets/hero.svg" alt="KUT — Operational Intelligence Platform" width="100%">
+<img src="docs/assets/hero.svg" alt="KUT, Operational Intelligence Platform" width="100%">
 
 <br>
 
 > **Türkiye'nin operasyonel istihbarat platformu** · An operational intelligence platform for real-time incident, resource, and event management.
 
+[![Repo](https://img.shields.io/badge/GitHub-KUT-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/sametgurtuna/KUT)
 [![.NET](https://img.shields.io/badge/.NET-10-512BD4?style=flat-square&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -20,7 +21,7 @@
 </div>
 
 > [!NOTE]
-> Bu README'deki arayüz ve mimari görselleri, projenin **hedeflenen (gelecek) halini** temsil eder — bugünkü kod tabanının ekran görüntüleri değildir. Nelerin bugün mevcut olduğunu [Yol Haritası](#yol-haritası) bölümünden takip edebilirsin.
+> Bu README'deki arayüz ve mimari görselleri, projenin **hedeflenen (gelecek) halini** gösteriyor; bugünkü kod tabanının ekran görüntüleri değil. Şu an neyin hazır olduğunu [Yol Haritası](#yol-haritası) bölümünden takip edebilirsin.
 > _The UI and architecture visuals in this README depict the **target (future) state** of the product, not screenshots of the current codebase. See the [Roadmap](#roadmap) for what ships today._
 
 ---
@@ -37,12 +38,12 @@ KUT, gerçek dünyadaki operasyonel varlıkları (organizasyonlar, ekipler, ara�
 | ⚡ **Olay tabanlı çekirdek** | Her anlamlı değişiklik `Events` tablosuna denetim izi olarak düşer |
 | 📡 **Gerçek zamanlı** | SignalR ile bağlı tüm istemciler aynı anda güncellenir |
 | 🧭 **Karar desteği** | En yakın/uygun aracı öneren operasyonel akıl _(yol haritasında)_ |
-| 🤖 **Doğrulanabilir AI** | Yapay zekâ yalnızca veritabanındaki gerçek kayıtlara dayanır _(yol haritasında)_ |
+| 🤖 **Doğrulanabilir AI** | Yapay zeka yalnızca veritabanındaki gerçek kayıtlara dayanır _(yol haritasında)_ |
 
 ### Operasyon Merkezi (hedef arayüz)
 
 <div align="center">
-<img src="docs/assets/ui-mockup.svg" alt="KUT operasyon merkezi arayüzü — canlı harita, kaynak ağacı, olay akışı ve asistan" width="100%">
+<img src="docs/assets/ui-mockup.svg" alt="KUT operasyon merkezi arayüzü: canlı harita, kaynak ağacı, olay akışı ve asistan" width="100%">
 </div>
 
 Solda organizasyon → ekip → araç kaynak ağacı ve katman filtreleri; ortada ihbar yoğunluğu, araç konumları ve önerilen atama rotalarıyla canlı harita; sağda doğal dille sorgulanabilen asistan, canlı olay akışı ve geriye sarılabilen zaman tüneli.
@@ -50,7 +51,7 @@ Solda organizasyon → ekip → araç kaynak ağacı ve katman filtreleri; ortad
 ### Mimari
 
 <div align="center">
-<img src="docs/assets/architecture.svg" alt="KUT hedef mimarisi — istemciler, uygulama katmanı, veri katmanı, event bus ve veri kaynakları" width="100%">
+<img src="docs/assets/architecture.svg" alt="KUT hedef mimarisi: istemciler, uygulama katmanı, veri katmanı, event bus ve veri kaynakları" width="100%">
 </div>
 
 Bugünkü çekirdek akış, sade bir üç katmandan ibarettir:
@@ -78,7 +79,7 @@ Bugünkü çekirdek akış, sade bir üç katmandan ibarettir:
 ### Veri Modeli
 
 <div align="center">
-<img src="docs/assets/data-model.svg" alt="KUT veri modeli ve ontoloji — Organization, Team, Vehicle, Incident, Assignment, Event" width="100%">
+<img src="docs/assets/data-model.svg" alt="KUT veri modeli ve ontoloji: Organization, Team, Vehicle, Incident, Assignment, Event" width="100%">
 </div>
 
 **Veri modeli mantığı:**
@@ -107,7 +108,7 @@ Event        (sistemdeki her önemli değişikliğin denetim izi)
 **1. Depoyu klonla**
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/sametgurtuna/KUT.git
 cd KUT
 ```
 
@@ -153,18 +154,18 @@ Frontend `http://localhost:5173` adresinde çalışır.
 ### Yol Haritası
 
 <div align="center">
-<img src="docs/assets/roadmap.svg" alt="KUT yol haritası — 9 milestone" width="100%">
+<img src="docs/assets/roadmap.svg" alt="KUT yol haritası, 9 milestone" width="100%">
 </div>
 
-- [x] **Milestone 1** — Temel varlıklar (Incident), ilk endpoint, ilk harita
-- [x] **Milestone 2** — İlişkiler (Organization → Team → Vehicle), harita marker'ları
-- [x] **Milestone 3** — Event sistemi (konum güncelleme + denetim izi + sürükle-bırak)
-- [ ] **Milestone 4** — Gerçek zamanlılık (SignalR ile çoklu istemci senkronizasyonu)
-- [ ] **Milestone 5** — Operasyonel karar desteği (en yakın/uygun araç önerisi)
-- [ ] **Milestone 6** — Ontoloji / graf modeli
-- [ ] **Milestone 7** — Yapay zekâ entegrasyonu (yalnızca gerçek veritabanı verisiyle)
-- [ ] **Milestone 8** — Veri girişi (CSV, REST API'ler, IoT, hava durumu, trafik)
-- [ ] **Milestone 9** — Dağıtık mimari (Redis, Event Bus, arama, graf veritabanı)
+- [x] **Milestone 1:** Temel varlıklar (Incident), ilk endpoint, ilk harita
+- [x] **Milestone 2:** İlişkiler (Organization → Team → Vehicle), harita marker'ları
+- [x] **Milestone 3:** Event sistemi (konum güncelleme + denetim izi + sürükle-bırak)
+- [ ] **Milestone 4:** Gerçek zamanlılık (SignalR ile çoklu istemci senkronizasyonu)
+- [ ] **Milestone 5:** Operasyonel karar desteği (en yakın/uygun araç önerisi)
+- [ ] **Milestone 6:** Ontoloji / graf modeli
+- [ ] **Milestone 7:** Yapay zeka entegrasyonu (yalnızca gerçek veritabanı verisiyle)
+- [ ] **Milestone 8:** Veri girişi (CSV, REST API'ler, IoT, hava durumu, trafik)
+- [ ] **Milestone 9:** Dağıtık mimari (Redis, Event Bus, arama, graf veritabanı)
 
 ### Katkıda Bulunma
 
@@ -180,7 +181,7 @@ Henüz belirlenmedi.
 
 ### What is KUT?
 
-KUT is an event-driven operational intelligence and decision-support platform that models real-world operational entities — organizations, teams, vehicles, and incidents — on a single live map. The goal is to turn scattered operational data (location, status, history) into one coherent operational picture ("single pane of glass").
+KUT is an event-driven operational intelligence and decision-support platform that models real-world operational entities (organizations, teams, vehicles, and incidents) on a single live map. The goal is to turn scattered operational data (location, status, history) into one coherent operational picture ("single pane of glass").
 
 |  | |
 | :-- | :-- |
@@ -193,7 +194,7 @@ KUT is an event-driven operational intelligence and decision-support platform th
 ### Operations Center (target UI)
 
 <div align="center">
-<img src="docs/assets/ui-mockup.svg" alt="KUT operations center — live map, resource tree, event feed and assistant" width="100%">
+<img src="docs/assets/ui-mockup.svg" alt="KUT operations center: live map, resource tree, event feed and assistant" width="100%">
 </div>
 
 Left: the organization → team → vehicle resource tree plus layer filters. Center: the live map with incident heat, vehicle positions and suggested assignment routes. Right: a natural-language assistant, the live event feed, and a scrubbable timeline.
@@ -201,7 +202,7 @@ Left: the organization → team → vehicle resource tree plus layer filters. Ce
 ### Architecture
 
 <div align="center">
-<img src="docs/assets/architecture.svg" alt="KUT target architecture — clients, application layer, data layer, event bus and data sources" width="100%">
+<img src="docs/assets/architecture.svg" alt="KUT target architecture: clients, application layer, data layer, event bus and data sources" width="100%">
 </div>
 
 Today's core flow is a straightforward three-tier setup:
@@ -229,7 +230,7 @@ Today's core flow is a straightforward three-tier setup:
 ### Data Model
 
 <div align="center">
-<img src="docs/assets/data-model.svg" alt="KUT data model and ontology — Organization, Team, Vehicle, Incident, Assignment, Event" width="100%">
+<img src="docs/assets/data-model.svg" alt="KUT data model and ontology: Organization, Team, Vehicle, Incident, Assignment, Event" width="100%">
 </div>
 
 **Data model logic:**
@@ -258,7 +259,7 @@ Event        (audit trail of every significant change in the system)
 **1. Clone the repo**
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/sametgurtuna/KUT.git
 cd KUT
 ```
 
@@ -276,7 +277,7 @@ dotnet ef database update
 dotnet run
 ```
 
-The backend runs at `http://localhost:5144` by default (port may vary — check the console output). Swagger UI: `http://localhost:5144/swagger`.
+The backend runs at `http://localhost:5144` by default (port may vary, check the console output). Swagger UI: `http://localhost:5144/swagger`.
 
 **3. Run the frontend**
 
@@ -304,18 +305,18 @@ The frontend runs at `http://localhost:5173`.
 ### Roadmap
 
 <div align="center">
-<img src="docs/assets/roadmap.svg" alt="KUT roadmap — 9 milestones" width="100%">
+<img src="docs/assets/roadmap.svg" alt="KUT roadmap, 9 milestones" width="100%">
 </div>
 
-- [x] **Milestone 1** — Core entities (Incident), first endpoint, first map
-- [x] **Milestone 2** — Relationships (Organization → Team → Vehicle), map markers
-- [x] **Milestone 3** — Event system (location updates + audit trail + drag-and-drop)
-- [ ] **Milestone 4** — Realtime (SignalR multi-client sync)
-- [ ] **Milestone 5** — Operational decision support (nearest/available vehicle recommendations)
-- [ ] **Milestone 6** — Ontology / graph model
-- [ ] **Milestone 7** — AI integration (grounded strictly in real database facts)
-- [ ] **Milestone 8** — Data ingestion (CSV, REST APIs, IoT, weather, traffic)
-- [ ] **Milestone 9** — Distributed architecture (Redis, event bus, search, graph store)
+- [x] **Milestone 1:** Core entities (Incident), first endpoint, first map
+- [x] **Milestone 2:** Relationships (Organization → Team → Vehicle), map markers
+- [x] **Milestone 3:** Event system (location updates + audit trail + drag-and-drop)
+- [ ] **Milestone 4:** Realtime (SignalR multi-client sync)
+- [ ] **Milestone 5:** Operational decision support (nearest/available vehicle recommendations)
+- [ ] **Milestone 6:** Ontology / graph model
+- [ ] **Milestone 7:** AI integration (grounded strictly in real database facts)
+- [ ] **Milestone 8:** Data ingestion (CSV, REST APIs, IoT, weather, traffic)
+- [ ] **Milestone 9:** Distributed architecture (Redis, event bus, search, graph store)
 
 ### Contributing
 
@@ -328,4 +329,6 @@ Not yet decided.
 <div align="center">
 <br>
 <sub>KUT · built step by step, one milestone at a time.</sub>
+<br>
+<sub><a href="https://github.com/sametgurtuna/KUT">github.com/sametgurtuna/KUT</a></sub>
 </div>
