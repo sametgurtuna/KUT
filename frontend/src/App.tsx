@@ -34,10 +34,28 @@ function App() {
             .then((data) => setVehicles(data));
     }, []);
 
+    const handleVehicleMoved = (id: number, latitude: number, longitude: number) => {
+        fetch(`http://localhost:5144/api/vehicles/${id}/location`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ latitude, longitude }),
+        })
+            .then((response) => response.json())
+            .then((updatedVehicle) => {
+                setVehicles((prev) =>
+                    prev.map((v) => (v.id === updatedVehicle.id ? updatedVehicle : v))
+                );
+            });
+    };
+
     return (
         <div>
             <h1>KUT</h1>
-            <Map incidents={incidents} vehicles={vehicles} />
+            <Map
+                incidents={incidents}
+                vehicles={vehicles}
+                onVehicleMoved={handleVehicleMoved}
+            />
         </div>
     );
 }

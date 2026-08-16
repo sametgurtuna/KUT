@@ -22,9 +22,10 @@ interface Vehicle {
 interface MapProps {
     incidents: Incident[];
     vehicles: Vehicle[];
+    onVehicleMoved: (id: number, latitude: number, longitude: number) => void;
 }
 
-function Map({ incidents, vehicles }: MapProps) {
+function Map({ incidents, vehicles, onVehicleMoved }: MapProps) {
     const mapContainer = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);
 
@@ -68,14 +69,14 @@ function Map({ incidents, vehicles }: MapProps) {
         };
     }, [incidents]);
 
-    // Vehicle marker'ları (mavi)
+    // Vehicle marker'ları (mavi, sürüklenebilir)
     useEffect(() => {
         if (!mapRef.current) return;
 
         const markers: maplibregl.Marker[] = [];
 
         vehicles.forEach((vehicle) => {
-            const marker = new maplibregl.Marker({ color: "blue" })
+            const marker = new maplibregl.Marker({ color: "blue", draggable: true })
                 .setLngLat([vehicle.longitude, vehicle.latitude])
                 .setPopup(
                     new maplibregl.Popup().setText(
@@ -83,6 +84,11 @@ function Map({ incidents, vehicles }: MapProps) {
                     )
                 )
                 .addTo(mapRef.current!);
+
+            marker.on("dragend", () => {
+                const newPosition = marker.getLngLat();
+                onVehicleMoved(vehicle.id, newPosition.lat, newPosition.lng);
+            });
 
             markers.push(marker);
         });
@@ -92,12 +98,7 @@ function Map({ incidents, vehicles }: MapProps) {
         };
     }, [vehicles]);
 
-    return (
-        <div
-            ref={mapContainer}
-            style={{ width: "100%", height: "500px" }}
-        />
-    );
+    return <div ref={mapContainer} style={{ width: "100%", height: "500px" }} />;
 }
 
 export default Map;

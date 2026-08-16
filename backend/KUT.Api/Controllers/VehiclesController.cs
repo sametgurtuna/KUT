@@ -1,4 +1,5 @@
 using KUT.Api.Data;
+using KUT.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,5 +24,40 @@ public class VehiclesController : ControllerBase
             .ToListAsync();
 
         return Ok(vehicles);
+    }
+
+    public class UpdateLocationRequest
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+
+    [HttpPatch("{id}/location")]
+    public async Task<IActionResult> UpdateLocation(int id, UpdateLocationRequest request)
+    {
+        var vehicle = await _db.Vehicles.FindAsync(id);
+
+        if (vehicle == null)
+        {
+            return NotFound();
+        }
+
+        vehicle.Latitude = request.Latitude;
+        vehicle.Longitude = request.Longitude;
+
+        var vehicleEvent = new Event
+        {
+            EventType = "VEHICLE_MOVED",
+            EntityType = "Vehicle",
+            EntityId = vehicle.Id,
+            Timestamp = DateTime.UtcNow,
+            Payload = $"{{\"latitude\":{request.Latitude},\"longitude\":{request.Longitude}}}"
+        };
+
+        _db.Events.Add(vehicleEvent);
+
+        await _db.SaveChangesAsync();
+
+        return Ok(vehicle);
     }
 }
