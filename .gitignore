@@ -1,0 +1,13 @@
+# .NET
+backend/**/bin/
+backend/**/obj/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Ortam / editor
+
+.vs/
+.vscode/
+*.user
