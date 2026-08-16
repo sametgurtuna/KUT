@@ -15,4 +15,5 @@ public class KutDbContext : DbContext
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
     public DbSet<Incident> Incidents => Set<Incident>();
     public DbSet<Event> Events => Set<Event>();
+    public DbSet<Assignment> Assignments => Set<Assignment>();
 }

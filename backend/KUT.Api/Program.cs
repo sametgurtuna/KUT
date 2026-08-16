@@ -1,5 +1,6 @@
 using KUT.Api.Data;
 using KUT.Api.Hubs;
+using KUT.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,9 @@ builder.Services.AddDbContext<KutDbContext>(options =>
     ));
 
 builder.Services.AddSignalR();
+
+builder.Services.AddHttpClient<OsrmClient>();
+builder.Services.AddHostedService<RouteSimulationService>();
 
 builder.Services.AddCors(options =>
 {
@@ -45,5 +49,12 @@ app.UseCors("Frontend");
 
 app.MapControllers();
 app.MapHub<KutHub>("/hub/kut");
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<KutDbContext>();
+    db.Database.Migrate();
+    DatabaseSeeder.Seed(db);
+}
 
 app.Run();

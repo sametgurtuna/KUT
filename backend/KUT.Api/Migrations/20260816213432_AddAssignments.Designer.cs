@@ -3,6 +3,7 @@ using System;
 using KUT.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KUT.Api.Migrations
 {
     [DbContext(typeof(KutDbContext))]
-    partial class KutDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260816213432_AddAssignments")]
+    partial class AddAssignments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,22 +36,7 @@ namespace KUT.Api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("EtaSeconds")
-                        .HasColumnType("integer");
-
                     b.Property<int>("IncidentId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("LastAdvancedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("RouteIndex")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("RoutePath")
-                        .HasColumnType("text");
-
-                    b.Property<int>("RouteVersion")
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
@@ -185,13 +173,6 @@ namespace KUT.Api.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Capabilities")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double?>("Heading")
-                        .HasColumnType("double precision");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("double precision");

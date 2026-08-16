@@ -3,6 +3,7 @@ using System;
 using KUT.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KUT.Api.Migrations
 {
     [DbContext(typeof(KutDbContext))]
-    partial class KutDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260816224323_AddSimulationFields")]
+    partial class AddSimulationFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,9 +50,6 @@ namespace KUT.Api.Migrations
 
                     b.Property<string>("RoutePath")
                         .HasColumnType("text");
-
-                    b.Property<int>("RouteVersion")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Status")
                         .IsRequired()

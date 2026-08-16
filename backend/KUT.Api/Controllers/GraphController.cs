@@ -44,6 +44,9 @@ public class GraphController : ControllerBase
         var teams = await _db.Teams.ToListAsync();
         var vehicles = await _db.Vehicles.ToListAsync();
         var incidents = await _db.Incidents.ToListAsync();
+        var assignments = await _db.Assignments
+            .Where(a => a.Status == "Active")
+            .ToListAsync();
 
         foreach (var org in organizations)
         {
@@ -96,6 +99,16 @@ public class GraphController : ControllerBase
                 Id = $"incident-{incident.Id}",
                 Type = "Incident",
                 Label = $"{incident.Type} (Severity {incident.Severity})"
+            });
+        }
+
+        foreach (var assignment in assignments)
+        {
+            response.Edges.Add(new GraphEdge
+            {
+                From = $"vehicle-{assignment.VehicleId}",
+                To = $"incident-{assignment.IncidentId}",
+                Relation = "responds-to"
             });
         }
 
