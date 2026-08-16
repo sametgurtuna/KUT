@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="track" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22D3EE"/>
+      <stop offset="33%" stop-color="#22D3EE"/>
+      <stop offset="45%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#3F3F46"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="#070C14"/>
+  <text x="40" y="42" font-size="18" font-weight="700" fill="#F1F5F9">Yol Haritası / Roadmap</text>
+  <text x="40" y="63" font-size="12" fill="#64748B">3 / 9 milestone tamamlandı · sonraki: gerçek zamanlı çoklu istemci senkronizasyonu</text>
+
+  <line x1="70" y1="150" x2="1130" y2="150" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+  <line x1="70" y1="150" x2="1130" y2="150" stroke="url(#track)" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- done: M1 M2 M3 -->
+  <g>
+    <g transform="translate(70,150)">
+      <circle r="13" fill="#0B1220" stroke="#22D3EE" stroke-width="3"/>
+      <path d="M-5 0 l4 4 l7 -8" fill="none" stroke="#22D3EE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7DD3FC">M1</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#94A3B8">Temel varlıklar</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#94A3B8">ilk harita</text>
+    </g>
+    <g transform="translate(202,150)">
+      <circle r="13" fill="#0B1220" stroke="#22D3EE" stroke-width="3"/>
+      <path d="M-5 0 l4 4 l7 -8" fill="none" stroke="#22D3EE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7DD3FC">M2</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#94A3B8">İlişkiler</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#94A3B8">marker'lar</text>
+    </g>
+    <g transform="translate(334,150)">
+      <circle r="13" fill="#0B1220" stroke="#22D3EE" stroke-width="3"/>
+      <path d="M-5 0 l4 4 l7 -8" fill="none" stroke="#22D3EE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7DD3FC">M3</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#94A3B8">Event sistemi</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#94A3B8">sürükle-bırak</text>
+    </g>
+
+    <!-- current: M4 -->
+    <g transform="translate(466,150)">
+      <circle r="21" fill="none" stroke="#F59E0B" stroke-opacity="0.35" stroke-width="1.5"/>
+      <circle r="14" fill="#1A1508" stroke="#F59E0B" stroke-width="3"/>
+      <circle r="4.5" fill="#F59E0B"/>
+      <text y="-34" text-anchor="middle" font-size="11.5" font-weight="700" fill="#FCD34D">M4 · şimdi</text>
+      <text y="36" text-anchor="middle" font-size="10.5" fill="#FCD34D">Gerçek zamanlılık</text>
+      <text y="51" text-anchor="middle" font-size="10.5" fill="#A16207">SignalR sync</text>
+    </g>
+
+    <!-- planned -->
+    <g transform="translate(598,150)">
+      <circle r="11" fill="#0B1220" stroke="#475569" stroke-width="2.5"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748B">M5</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#64748B">Karar desteği</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#475569">en yakın araç</text>
+    </g>
+    <g transform="translate(730,150)">
+      <circle r="11" fill="#0B1220" stroke="#475569" stroke-width="2.5"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748B">M6</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#64748B">Ontoloji</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#475569">graf modeli</text>
+    </g>
+    <g transform="translate(862,150)">
+      <circle r="11" fill="#0B1220" stroke="#475569" stroke-width="2.5"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748B">M7</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#64748B">AI entegrasyonu</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#475569">grounded</text>
+    </g>
+    <g transform="translate(994,150)">
+      <circle r="11" fill="#0B1220" stroke="#475569" stroke-width="2.5"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748B">M8</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#64748B">Veri girişi</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#475569">IoT · hava · trafik</text>
+    </g>
+    <g transform="translate(1126,150)">
+      <circle r="11" fill="#0B1220" stroke="#475569" stroke-width="2.5"/>
+      <text y="-32" text-anchor="middle" font-size="11.5" font-weight="700" fill="#64748B">M9</text>
+      <text y="34" text-anchor="middle" font-size="10.5" fill="#64748B">Dağıtık mimari</text>
+      <text y="49" text-anchor="middle" font-size="10.5" fill="#475569">Redis · event bus</text>
+    </g>
+  </g>
+
+  <g transform="translate(40,250)" font-size="11">
+    <circle cx="8" cy="8" r="6" fill="none" stroke="#22D3EE" stroke-width="2.5"/>
+    <text x="22" y="12" fill="#94A3B8">tamamlandı</text>
+    <circle cx="120" cy="8" r="6" fill="#1A1508" stroke="#F59E0B" stroke-width="2.5"/>
+    <text x="134" y="12" fill="#94A3B8">geliştiriliyor</text>
+    <circle cx="240" cy="8" r="6" fill="none" stroke="#475569" stroke-width="2.5"/>
+    <text x="254" y="12" fill="#94A3B8">planlandı</text>
+  </g>
+</svg>

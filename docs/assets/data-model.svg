@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#22D3EE"/>
+    </marker>
+    <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#A78BFA"/>
+    </marker>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="560" fill="#070C14"/>
+  <text x="40" y="44" font-size="19" font-weight="700" fill="#F1F5F9">Ontoloji / Veri Modeli — Ontology &amp; Data Model</text>
+  <text x="40" y="66" font-size="12.5" fill="#64748B">Milestone 6 hedefi: ilişkilerin kendisi de sorgulanabilir bir varlık haline gelir</text>
+
+  <!-- Organization -->
+  <g transform="translate(60,120)">
+    <rect width="230" height="120" rx="12" fill="#0F1B2D" stroke="#22D3EE" stroke-opacity="0.6"/>
+    <rect width="230" height="32" rx="12" fill="#0F2A44"/>
+    <rect y="20" width="230" height="12" fill="#0F2A44"/>
+    <text x="16" y="22" font-size="13" font-weight="700" fill="#7DD3FC">Organization</text>
+    <text x="16" y="54" font-size="11.5" fill="#94A3B8">id · name · type</text>
+    <text x="16" y="74" font-size="11.5" fill="#94A3B8">jurisdiction</text>
+    <text x="16" y="100" font-size="10.5" fill="#475569">AFAD, itfaiye, sağlık, kolluk…</text>
+  </g>
+
+  <!-- Team -->
+  <g transform="translate(360,120)">
+    <rect width="230" height="120" rx="12" fill="#0F1B2D" stroke="#22D3EE" stroke-opacity="0.6"/>
+    <rect width="230" height="32" rx="12" fill="#0F2A44"/>
+    <rect y="20" width="230" height="12" fill="#0F2A44"/>
+    <text x="16" y="22" font-size="13" font-weight="700" fill="#7DD3FC">Team</text>
+    <text x="16" y="54" font-size="11.5" fill="#94A3B8">id · name · status</text>
+    <text x="16" y="74" font-size="11.5" fill="#94A3B8">organizationId (FK)</text>
+    <text x="16" y="100" font-size="10.5" fill="#475569">yetenek profili · vardiya</text>
+  </g>
+
+  <!-- Vehicle -->
+  <g transform="translate(660,120)">
+    <rect width="230" height="120" rx="12" fill="#0F1B2D" stroke="#22D3EE" stroke-opacity="0.6"/>
+    <rect width="230" height="32" rx="12" fill="#0F2A44"/>
+    <rect y="20" width="230" height="12" fill="#0F2A44"/>
+    <text x="16" y="22" font-size="13" font-weight="700" fill="#7DD3FC">Vehicle</text>
+    <text x="16" y="54" font-size="11.5" fill="#94A3B8">id · name · type · status</text>
+    <text x="16" y="74" font-size="11.5" fill="#94A3B8">latitude · longitude · teamId</text>
+    <text x="16" y="100" font-size="10.5" fill="#475569">konum canlı güncellenir</text>
+  </g>
+
+  <!-- Incident -->
+  <g transform="translate(660,320)">
+    <rect width="230" height="120" rx="12" fill="#241017" stroke="#F87171" stroke-opacity="0.6"/>
+    <rect width="230" height="32" rx="12" fill="#3B1219"/>
+    <rect y="20" width="230" height="12" fill="#3B1219"/>
+    <text x="16" y="22" font-size="13" font-weight="700" fill="#FCA5A5">Incident</text>
+    <text x="16" y="54" font-size="11.5" fill="#94A3B8">id · type · severity · status</text>
+    <text x="16" y="74" font-size="11.5" fill="#94A3B8">latitude · longitude · createdAt</text>
+    <text x="16" y="100" font-size="10.5" fill="#78716C">ihbar / olay yeri</text>
+  </g>
+
+  <!-- Assignment (planned) -->
+  <g transform="translate(360,320)">
+    <rect width="230" height="120" rx="12" fill="#1A1508" stroke="#F59E0B" stroke-opacity="0.65" stroke-dasharray="5 4"/>
+    <rect width="230" height="32" rx="12" fill="#2A2109"/>
+    <rect y="20" width="230" height="12" fill="#2A2109"/>
+    <text x="16" y="22" font-size="13" font-weight="700" fill="#FCD34D">Assignment</text>
+    <text x="130" y="22" font-size="9.5" fill="#A16207">planlanan</text>
+    <text x="16" y="54" font-size="11.5" fill="#A8A29E">incidentId · vehicleId</text>
+    <text x="16" y="74" font-size="11.5" fill="#A8A29E">assignedAt · eta · outcome</text>
+    <text x="16" y="100" font-size="10.5" fill="#78716C">karar motorunun çıktısı</text>
+  </g>
+
+  <!-- Event -->
+  <g transform="translate(60,320)">
+    <rect width="230" height="120" rx="12" fill="#12102A" stroke="#A78BFA" stroke-opacity="0.6"/>
+    <rect width="230" height="32" rx="12" fill="#1B1740"/>
+    <rect y="20" width="230" height="12" fill="#1B1740"/>
+    <text x="16" y="22" font-size="13" font-weight="700" fill="#C4B5FD">Event</text>
+    <text x="16" y="54" font-size="11.5" fill="#94A3B8">id · type · entityType · entityId</text>
+    <text x="16" y="74" font-size="11.5" fill="#94A3B8">payload · occurredAt</text>
+    <text x="16" y="100" font-size="10.5" fill="#7C7A9E">append-only denetim izi</text>
+  </g>
+
+  <!-- edges -->
+  <g fill="none" stroke-width="1.8">
+    <path d="M290 180 H360" stroke="#22D3EE" marker-end="url(#a)"/>
+    <path d="M590 180 H660" stroke="#22D3EE" marker-end="url(#a)"/>
+    <path d="M775 240 V320" stroke="#F59E0B" stroke-dasharray="5 4" marker-end="url(#af)"/>
+    <path d="M660 380 H590" stroke="#F59E0B" stroke-dasharray="5 4" marker-end="url(#af)"/>
+    <path d="M360 380 H290" stroke="#A78BFA" stroke-dasharray="4 4" marker-end="url(#ap)"/>
+    <path d="M175 240 V320" stroke="#A78BFA" stroke-dasharray="4 4" marker-end="url(#ap)"/>
+    <path d="M475 240 V320" stroke="#A78BFA" stroke-dasharray="4 4" marker-end="url(#ap)"/>
+  </g>
+  <g font-size="10.5">
+    <text x="298" y="172" fill="#7DD3FC">1 — n  sahip olur</text>
+    <text x="598" y="172" fill="#7DD3FC">1 — n  konuşlandırır</text>
+    <text x="786" y="286" fill="#FCD34D">atanır</text>
+    <text x="600" y="370" fill="#FCD34D">müdahale eder</text>
+    <text x="300" y="370" fill="#A78BFA">kayıt düşer</text>
+    <text x="186" y="286" fill="#A78BFA">izlenir</text>
+    <text x="486" y="286" fill="#A78BFA">izlenir</text>
+  </g>
+
+  <!-- footer note -->
+  <g transform="translate(940,120)">
+    <rect width="220" height="320" rx="12" fill="#0A121F" stroke="#1E293B"/>
+    <text x="18" y="30" font-size="12" font-weight="700" fill="#7DD3FC">Neden event tabanlı?</text>
+    <text x="18" y="56" font-size="11" fill="#94A3B8">Durum tek başına “şu an”ı</text>
+    <text x="18" y="74" font-size="11" fill="#94A3B8">anlatır; operasyonda “nasıl</text>
+    <text x="18" y="92" font-size="11" fill="#94A3B8">buraya geldik” sorusu en az</text>
+    <text x="18" y="110" font-size="11" fill="#94A3B8">o kadar önemlidir.</text>
+    <text x="18" y="146" font-size="11" fill="#94A3B8">Her Event kaydı:</text>
+    <text x="18" y="170" font-size="11" fill="#CBD5E1">· geri sarılabilir zaman tüneli</text>
+    <text x="18" y="192" font-size="11" fill="#CBD5E1">· denetlenebilir karar geçmişi</text>
+    <text x="18" y="214" font-size="11" fill="#CBD5E1">· AI için doğrulanabilir kaynak</text>
+    <text x="18" y="236" font-size="11" fill="#CBD5E1">· dağıtık yayılım için tetikleyici</text>
+    <text x="18" y="276" font-size="11" fill="#64748B">Why event-driven: state tells</text>
+    <text x="18" y="294" font-size="11" fill="#64748B">you “now”, events tell you</text>
+    <text x="18" y="312" font-size="11" fill="#64748B">how you got here.</text>
+  </g>
+</svg>
