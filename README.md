@@ -13,7 +13,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![MapLibre](https://img.shields.io/badge/MapLibre_GL-JS-396CB2?style=flat-square&logo=maplibre&logoColor=white)](https://maplibre.org/)
 [![SignalR](https://img.shields.io/badge/SignalR-realtime-512BD4?style=flat-square)](https://learn.microsoft.com/aspnet/core/signalr/introduction)
-[![Roadmap](https://img.shields.io/badge/roadmap-3%2F9%20milestones-22D3EE?style=flat-square)](#yol-haritası)
+[![Roadmap](https://img.shields.io/badge/roadmap-6%2F9%20milestones-22D3EE?style=flat-square)](#yol-haritası)
 [![License](https://img.shields.io/badge/license-TBD-lightgrey?style=flat-square)](#lisans)
 
 🌐 **Language / Dil:** [Türkçe](#türkçe) · [English](#english)
@@ -160,9 +160,9 @@ Frontend `http://localhost:5173` adresinde çalışır.
 - [x] **Milestone 1:** Temel varlıklar (Incident), ilk endpoint, ilk harita
 - [x] **Milestone 2:** İlişkiler (Organization → Team → Vehicle), harita marker'ları
 - [x] **Milestone 3:** Event sistemi (konum güncelleme + denetim izi + sürükle-bırak)
-- [ ] **Milestone 4:** Gerçek zamanlılık (SignalR ile çoklu istemci senkronizasyonu)
-- [ ] **Milestone 5:** Operasyonel karar desteği (en yakın/uygun araç önerisi)
-- [ ] **Milestone 6:** Ontoloji / graf modeli
+- [x] **Milestone 4:** Gerçek zamanlılık (SignalR ile çoklu istemci senkronizasyonu)
+- [x] **Milestone 5:** Operasyonel karar desteği (en yakın/uygun araç önerisi)
+- [x] **Milestone 6:** Ontoloji / graf modeli
 - [ ] **Milestone 7:** Yapay zeka entegrasyonu (yalnızca gerçek veritabanı verisiyle)
 - [ ] **Milestone 8:** Veri girişi (CSV, REST API'ler, IoT, hava durumu, trafik)
 - [ ] **Milestone 9:** Dağıtık mimari (Redis, Event Bus, arama, graf veritabanı)
@@ -311,9 +311,9 @@ The frontend runs at `http://localhost:5173`.
 - [x] **Milestone 1:** Core entities (Incident), first endpoint, first map
 - [x] **Milestone 2:** Relationships (Organization → Team → Vehicle), map markers
 - [x] **Milestone 3:** Event system (location updates + audit trail + drag-and-drop)
-- [ ] **Milestone 4:** Realtime (SignalR multi-client sync)
-- [ ] **Milestone 5:** Operational decision support (nearest/available vehicle recommendations)
-- [ ] **Milestone 6:** Ontology / graph model
+- [x] **Milestone 4:** Realtime (SignalR multi-client sync)
+- [x] **Milestone 5:** Operational decision support (nearest/available vehicle recommendations)
+- [x] **Milestone 6:** Ontology / graph model
 - [ ] **Milestone 7:** AI integration (grounded strictly in real database facts)
 - [ ] **Milestone 8:** Data ingestion (CSV, REST APIs, IoT, weather, traffic)
 - [ ] **Milestone 9:** Distributed architecture (Redis, event bus, search, graph store)

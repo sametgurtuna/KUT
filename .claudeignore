@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# .NET build artifacts
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Frontend build output
+frontend/dist/
+frontend/.vite/
+
+# Environment / secrets
+.env
+.env.*
+**/appsettings.*.Local.json
+**/appsettings.Production.json
+
+# IDE
+.vs/
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Lockfiles (large, low signal for reading)
+package-lock.json
+frontend/package-lock.json
+
+# Data dumps
+data/*.csv
+data/*.dump
+data/*.sql
