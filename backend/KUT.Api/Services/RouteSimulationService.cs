@@ -16,8 +16,15 @@ namespace KUT.Api.Services;
 public class RouteSimulationService : BackgroundService
 {
     private static readonly TimeSpan TickInterval = TimeSpan.FromMilliseconds(1200);
-    // Number of OSRM coord points to advance per tick; higher = faster vehicle.
-    private const int StepPerTick = 3;
+    // Wall-clock seconds compressed into one simulated second. The vehicle still
+    // drives at the route's real average speed — this only fast-forwards it so a
+    // 40-minute dispatch is watchable.
+    private const double TimeCompression = 12.0;
+    // Used when an assignment has no ETA to derive a speed from (~50 km/h).
+    private const double FallbackSpeedMps = 13.9;
+    // A tick that arrives late (paused debugger, slow DB) must not teleport the
+    // vehicle across town.
+    private const double MaxTickSeconds = 5.0;
 
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<RouteSimulationService> _logger;
@@ -49,6 +56,12 @@ public class RouteSimulationService : BackgroundService
         using var scope = _scopeFactory.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<KutDbContext>();
         var hub = scope.ServiceProvider.GetRequiredService<IHubContext<KutHub>>();
+        var osrm = scope.ServiceProvider.GetRequiredService<OsrmClient>();
+
+        // Self-heal: a dispatch created while OSRM was rate-limited has no
+        // geometry, so the map falls back to a straight line forever. Retry the
+        // routing here until it sticks.
+        await RepairMissingRoutesAsync(db, hub, osrm, ct);
 
         var active = await db.Assignments
             .Where(a => a.Status == "Active" && a.RoutePath != null)
@@ -70,15 +83,29 @@ public class RouteSimulationService : BackgroundService
             var vehicle = await db.Vehicles.FindAsync(new object[] { assignment.VehicleId }, ct);
             if (vehicle == null) continue;
 
-            var nextIdx = Math.Min(assignment.RouteIndex + StepPerTick, path.Count - 1);
+            // Drive a real distance this tick — road speed × elapsed time —
+            // rather than a fixed number of vertices, so the vehicle keeps a
+            // steady pace through dense junction geometry and open motorway alike.
+            var since = assignment.LastAdvancedAt is { } last
+                ? (DateTime.UtcNow - last).TotalSeconds
+                : TickInterval.TotalSeconds;
+            var elapsed = Math.Clamp(since, 0, MaxTickSeconds);
+            if (elapsed <= 0) elapsed = TickInterval.TotalSeconds;
 
-            // Compute heading from previous point for a nice marker rotation.
-            var prev = path[Math.Max(0, nextIdx - 1)];
-            var cur = path[nextIdx];
-            var heading = Bearing(prev[1], prev[0], cur[1], cur[0]);
+            var budget = SpeedMps(assignment, path) * TimeCompression * elapsed;
+            var (nextIdx, lon, lat) = Advance(
+                path, assignment.RouteIndex, vehicle.Longitude, vehicle.Latitude, budget);
 
-            vehicle.Longitude = cur[0];
-            vehicle.Latitude = cur[1];
+            // Heading from the point just behind us, for marker rotation.
+            var prev = path[Math.Max(0, Math.Min(nextIdx, path.Count - 1))];
+            var heading = Bearing(prev[1], prev[0], lat, lon);
+            if (Math.Abs(prev[0] - lon) < 1e-9 && Math.Abs(prev[1] - lat) < 1e-9)
+            {
+                heading = vehicle.Heading ?? heading;
+            }
+
+            vehicle.Longitude = lon;
+            vehicle.Latitude = lat;
             vehicle.Heading = heading;
 
             var evt = new Event
@@ -149,6 +176,101 @@ public class RouteSimulationService : BackgroundService
                     await hub.Clients.All.SendAsync("EventLogged", resolveEvt, ct);
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// The route's own average speed (total road distance ÷ OSRM's ETA), so a
+    /// motorway run moves faster than a city crawl instead of every vehicle
+    /// sharing one made-up speed.
+    /// </summary>
+    private static double SpeedMps(Assignment assignment, List<double[]> path)
+    {
+        if (assignment.EtaSeconds is not > 0) return FallbackSpeedMps;
+        var meters = PathLengthMeters(path);
+        if (meters <= 0) return FallbackSpeedMps;
+        return Math.Clamp(meters / assignment.EtaSeconds.Value, 3.0, 45.0);
+    }
+
+    private static double PathLengthMeters(List<double[]> path)
+    {
+        double total = 0;
+        for (int i = 1; i < path.Count; i++)
+        {
+            total += OsrmClient.HaversineMeters(path[i - 1][1], path[i - 1][0], path[i][1], path[i][0]);
+        }
+        return total;
+    }
+
+    /// <summary>
+    /// Walks <paramref name="meters"/> along the polyline, starting from the
+    /// vehicle's current position inside segment <paramref name="fromIndex"/> →
+    /// <paramref name="fromIndex"/>+1 (not from the vertex itself, so the
+    /// part-segment already covered is never re-driven). Returns the last vertex
+    /// passed plus the exact interpolated position after it — the vehicle lands
+    /// where it would really be, not on the nearest vertex.
+    /// </summary>
+    private static (int Index, double Lon, double Lat) Advance(
+        List<double[]> path, int fromIndex, double curLon, double curLat, double meters)
+    {
+        var i = Math.Clamp(fromIndex, 0, path.Count - 1);
+        if (i >= path.Count - 1)
+        {
+            return (path.Count - 1, path[^1][0], path[^1][1]);
+        }
+
+        var remaining = Math.Max(0, meters);
+        // First segment starts at the live position rather than path[i].
+        double[] a = { curLon, curLat };
+        while (i < path.Count - 1)
+        {
+            var b = path[i + 1];
+            var seg = OsrmClient.HaversineMeters(a[1], a[0], b[1], b[0]);
+            if (seg > 0 && remaining < seg)
+            {
+                var t = remaining / seg;
+                return (i, a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t);
+            }
+            remaining -= Math.Max(0, seg);
+            i++;
+            a = b;
+        }
+        return (path.Count - 1, path[^1][0], path[^1][1]);
+    }
+
+    private async Task RepairMissingRoutesAsync(
+        KutDbContext db, IHubContext<KutHub> hub, OsrmClient osrm, CancellationToken ct)
+    {
+        var broken = await db.Assignments
+            .Where(a => a.Status == "Active" && a.RoutePath == null)
+            .ToListAsync(ct);
+        if (broken.Count == 0) return;
+
+        foreach (var assignment in broken)
+        {
+            var vehicle = await db.Vehicles.FindAsync(new object[] { assignment.VehicleId }, ct);
+            var incident = await db.Incidents.FindAsync(new object[] { assignment.IncidentId }, ct);
+            if (vehicle == null || incident == null) continue;
+
+            var geom = await osrm.RouteAsync(
+                (vehicle.Longitude, vehicle.Latitude),
+                (incident.Longitude, incident.Latitude),
+                ct);
+            if (geom == null)
+            {
+                _logger.LogWarning(
+                    "Assignment {Id} still has no road geometry; retrying next tick", assignment.Id);
+                continue;
+            }
+
+            assignment.RoutePath = JsonSerializer.Serialize(geom.Coordinates);
+            assignment.RouteIndex = 0;
+            assignment.RouteVersion++;
+            assignment.EtaSeconds = (int)Math.Round(geom.DurationMin * 60);
+            assignment.LastAdvancedAt = DateTime.UtcNow;
+
+            await db.SaveChangesAsync(ct);
+            await hub.Clients.All.SendAsync("AssignmentUpdated", assignment, ct);
         }
     }
 

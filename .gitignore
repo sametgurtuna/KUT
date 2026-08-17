@@ -1,13 +1,40 @@
 # .NET
 backend/**/bin/
 backend/**/obj/
+*.user
+*.suo
 
 # Node
 frontend/node_modules/
 frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
 
-# Ortam / editor
+# Ortam / secrets
+.env
+.env.*
+**/appsettings.*.Local.json
+**/appsettings.Production.json
 
+# Editor / IDE
 .vs/
 .vscode/
-*.user
+.idea/
+*.swp
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Claude Code
+CLAUDE.md
+.claudeignore
+.claude/
